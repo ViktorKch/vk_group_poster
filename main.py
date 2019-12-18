@@ -31,8 +31,9 @@ def get_upload_information(group_id, access_token, version):
     }
     response = requests.get(url, params=params)
     response.raise_for_status()
-    check_vk_api_error(response.json())
-    return response.json()['response']['upload_url']
+    response_data = response.json()
+    check_vk_api_error(response_data)
+    return response_data['response']['upload_url']
 
 def upload_comics(picture_id, group_id):
     upload_url = get_upload_information(group_id, access_token, version)
@@ -77,8 +78,6 @@ def post_picture(picture_id, group_id, access_token, version):
     
     response = requests.get(url, params=params).json()
     check_vk_api_error(response)
-
-    os.remove(f'{picture_id}.png')
 
 def get_last_comics_number():
     url = 'https://xkcd.com/info.0.json'
